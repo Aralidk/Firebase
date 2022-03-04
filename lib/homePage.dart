@@ -1,11 +1,8 @@
 // ignore_for_file: file_names
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -20,9 +17,8 @@ class _HomePageState extends State<HomePage> {
     CollectionReference moviesRef = _firestore.collection('movie');
     var babaRef = _firestore.collection('movie').doc('Baba');
 
-
     return Scaffold(
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: Color.fromRGBO(100, 100, 100, 1.0),
       appBar: AppBar(
         title: const Text('Firestore İslemleri'),
       ),
@@ -41,8 +37,6 @@ class _HomePageState extends State<HomePage> {
                 print(list[1].data());
               },
               child: Text('Querysnapshot'),
-
-
               /* Data alma document ile
                 onPressed: () async {
                   var response = await babaRef.get();
@@ -68,7 +62,7 @@ class _HomePageState extends State<HomePage> {
               builder: (BuildContext context, AsyncSnapshot asyncSnapshot){
                // hata olup olmadığını kontrol etmek gerekiyor
                if(asyncSnapshot.hasError){
-                 return Text(
+                 return const Text(
                    'Error of database');}
                else{
                  if(asyncSnapshot.hasData){
@@ -95,18 +89,15 @@ class _HomePageState extends State<HomePage> {
                  else{
                    return Center(
                      child: Container(
-                       color: Colors.amber,
+                       color: Color.fromRGBO(100,100, 100,1),
                        width: 250,
                        height: 250,
                        child: Text('No Data In Database'),
                      ),
                    );
-
                  }
-
                }
               },
-
             ),
             Padding(padding: EdgeInsets.all(50),
             child: Form(
@@ -128,15 +119,15 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.amber,
+        backgroundColor: Colors.red,
         child: Icon(Icons.add),
         onPressed: () async {
           //text alanlarındaki veriden map oluştur
           Map<String, dynamic> movieData= {'name': movieName.text,'rating': movieRating.text};
           // veriyi yazacağımız referansa ulaştır ve metodu çağır
-          //await moviesRef.doc(movieName.text).set(movieData);
+          await moviesRef.doc(movieName.text).set(movieData);
           //veriyi update etme
-          await moviesRef.doc(movieName.text).update({'rating': '4.6'});
+          //await moviesRef.doc(movieName.text).update({'rating': '4.6'});
         },
       ),
     );
